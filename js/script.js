@@ -34,11 +34,19 @@ fetch("https://fakestoreapi.com/products") // <== importare la lista prodotti in
     renderProducts();
   }); 
 
-let products = [];
+
 const wrapperProducts = document.querySelector(".wrapper__products");
 
-function renderProducts() {
-  products.map((product) => {
+function renderProducts(listItems) {
+  listItems.map((product) => {
     createProduct(wrapperProducts, product.image, product.title, product.price);
   });
 }
+
+const getProductsList = async () => {
+  const res = await fetch("https://fakestoreapi.com/products");
+  const data = await res.json();
+  return renderProducts(data);
+
+};
+getProductsList();
