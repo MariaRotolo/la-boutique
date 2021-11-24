@@ -9,6 +9,37 @@ body {
   border: 0;
 }
 
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; 
+  top: 50px;
+  right: 50px;
+  z-index: 3; 
+  
+  
+  width: 400px; 
+  height: 100px; 
+  padding: 10px;
+  background-color: rgb(58, 107, 95); 
+  font-size: 20px;
+  border-radius: 2%;
+}
+
+.close_modal {
+  color: #aaaaaa;
+  
+  font-size: 18px;
+  font-weight: bold;
+ 
+}
+
+.close_modal:hover,
+.close_modal:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
 h4 {
   margin: 10px 0 0;
   padding: 0;

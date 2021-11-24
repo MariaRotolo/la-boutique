@@ -3,6 +3,10 @@
   cartProductsNum.textContent = `Numero prodotti: ${cartList.length}`;
 }
 
+const modal = document.querySelector("#my_modal");
+const closeBtn = document.querySelector("close_modal");
+
+
 function createProduct(parent, imgUrl, productTitle, textPrice, idProduct) {
   const product = document.createElement("div");
   product.className = "product";
@@ -18,12 +22,16 @@ function createProduct(parent, imgUrl, productTitle, textPrice, idProduct) {
         (product) => parseInt(e.currentTarget.id) === product.id
       )
     );
-    setCartProductsNum();
-    alert(`Prodotto aggiunto al carrello, numero prodotti: ${cartList.length}`);
+  
+    setCartProductsNum(); 
+    modal.style.display = "block";
+   /* alert(`Prodotto aggiunto al carrello, numero prodotti: ${cartList.length}`); */
     // Nel caso in cui volessimo aggiungere una interazione col LocalStorage
+    closeBtn.onclick = function() {modal.style.display= "none"};
     localStorage.setItem("totCartitems", cartList.length);
   });
 }
+
 
 function createImg(parent, imgUrl, productTitle) {
   const image = document.createElement("img");
@@ -54,6 +62,8 @@ function renderProducts(listItems) {
     );
   });
 }
+
+
 
 // Async await
 const getProductsList = async () => {
