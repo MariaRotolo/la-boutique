@@ -4,7 +4,8 @@
 }
 
 const modal = document.querySelector("#my_modal");
-const closeBtn = document.querySelector("close_modal");
+const closeBtn = document.querySelector(".close_modal");
+
 
 
 function createProduct(parent, imgUrl, productTitle, textPrice, idProduct) {
@@ -28,9 +29,15 @@ function createProduct(parent, imgUrl, productTitle, textPrice, idProduct) {
    /* alert(`Prodotto aggiunto al carrello, numero prodotti: ${cartList.length}`); */
     // Nel caso in cui volessimo aggiungere una interazione col LocalStorage
     closeBtn.onclick = function() {modal.style.display= "none"};
+    //window.onclick = function(event) {
+     // if (modal.style.display = "block") {
+      //  modal.style.display = "none";
+      //}
+   // }
     localStorage.setItem("totCartitems", cartList.length);
   });
 }
+
 
 
 function createImg(parent, imgUrl, productTitle) {
