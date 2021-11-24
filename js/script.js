@@ -1,5 +1,7 @@
  // import { products } from "./products.js";  // <== importare la lista prodotti in modo locale
-
+function setCartProductSum() {
+  cartProductsNum.textContent = `Numero prodotti: ${cartList.length}`;
+}
 function createProduct(parent, imgUrl, productTitle, textPrice, idProduct) {
   const product = document.createElement("div");
   product.className = "product";
@@ -11,10 +13,15 @@ function createProduct(parent, imgUrl, productTitle, textPrice, idProduct) {
   parent.appendChild(product);
 
   product.addEventListener("click", (e) => {
-    console.log(e.currentTarget);
-    productList.find((product) => PerformanceObserverEntryList(e.currentTarget.id)== product.id);
+    cartList.push(
+      productList.find(
+        (product) => parseInt(e.currentTarget.id) === product.id
+      )
+    );
+    setCartProductSum();
+    alert(`Prodotto aggiunto al carrello, numero prodotti: ${cartList.length}`);
 
-  })
+  });
 }
 
 function createImg(parent, imgUrl, productTitle) {
@@ -59,13 +66,23 @@ const getProductsList = async () => {
   return renderProducts(data);
 
 };
-
+let productList = [];
 const wrapperProducts = document.querySelector(".wrapper__products");
 const cartList = [];
-let productList = [];
 
+const localStorageTot = localStorage.getItem("totCartitems");
+const cartBtn = document.querySelector(".cartBtn");
+const cartProductsNum = document.querySelector(".cartProductsNum");
+const clearCartBtn = document.querySelector(".clearCart");
+
+cartProductsNum.textContent = `Numero prodotti : ${localStorageTot}`
 
 getProductsList();
+
+clearCartBtn.addEventListener("click", () => {
+  cartList.length = 0;
+  setCartProductSum(); 
+});
 
 const images = [
   "https://images.unsplash.com/photo-1493655161922-ef98929de9d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80",
