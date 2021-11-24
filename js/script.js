@@ -1,13 +1,20 @@
  // import { products } from "./products.js";  // <== importare la lista prodotti in modo locale
 
-function createProduct(parent, imgUrl, productTitle, textPrice) {
+function createProduct(parent, imgUrl, productTitle, textPrice, idProduct) {
   const product = document.createElement("div");
   product.className = "product";
+  product.setAttribute("id", idProduct);
   
 
   createImg(product, imgUrl, productTitle);
   createText(product, productTitle, textPrice);
   parent.appendChild(product);
+
+  product.addEventListener("click", (e) => {
+    console.log(e.currentTarget);
+    productList.find((product) => PerformanceObserverEntryList(e.currentTarget.id)== product.id);
+
+  })
 }
 
 function createImg(parent, imgUrl, productTitle) {
@@ -36,21 +43,28 @@ function createText(parent, productTitle, textPrice) {
   //}); 
 
 
-const wrapperProducts = document.querySelector(".wrapper__products");
+
 
 function renderProducts(listItems) {
   listItems.map((product) => {
-    createProduct(wrapperProducts, product.image, product.title, product.price);
+    createProduct(wrapperProducts, product.image, product.title, product.price, product.id);
   });
 }
 
 const getProductsList = async () => {
   const res = await fetch("https://fakestoreapi.com/products");
   const data = await res.json();
+  getProductsList = data;
   
   return renderProducts(data);
 
 };
+
+const wrapperProducts = document.querySelector(".wrapper__products");
+const cartList = [];
+let productList = [];
+
+
 getProductsList();
 
 const images = [
