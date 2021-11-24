@@ -1,12 +1,17 @@
  // import { products } from "./products.js";  // <== importare la lista prodotti in modo locale
-function setCartProductSum() {
+ function setCartProductsNum() {
   cartProductsNum.textContent = `Numero prodotti: ${cartList.length}`;
 }
+
+const modal = document.querySelector("#my_modal");
+const closeBtn = document.querySelector(".close_modal");
+
+
+
 function createProduct(parent, imgUrl, productTitle, textPrice, idProduct) {
   const product = document.createElement("div");
   product.className = "product";
   product.setAttribute("id", idProduct);
-  
 
   createImg(product, imgUrl, productTitle);
   createText(product, productTitle, textPrice);
@@ -14,15 +19,26 @@ function createProduct(parent, imgUrl, productTitle, textPrice, idProduct) {
 
   product.addEventListener("click", (e) => {
     cartList.push(
-      productList.find(
+      productsList.find(
         (product) => parseInt(e.currentTarget.id) === product.id
       )
     );
-    setCartProductSum();
-    alert(`Prodotto aggiunto al carrello, numero prodotti: ${cartList.length}`);
-
+  
+    setCartProductsNum(); 
+    modal.style.display = "block";
+   /* alert(`Prodotto aggiunto al carrello, numero prodotti: ${cartList.length}`); */
+    // Nel caso in cui volessimo aggiungere una interazione col LocalStorage
+    closeBtn.onclick = function() {modal.style.display= "none"};
+    //window.onclick = function(event) {
+     // if (modal.style.display = "block") {
+      //  modal.style.display = "none";
+      //}
+   // }
+    localStorage.setItem("totCartitems", cartList.length);
   });
 }
+
+
 
 function createImg(parent, imgUrl, productTitle) {
   const image = document.createElement("img");
@@ -42,46 +58,53 @@ function createText(parent, productTitle, textPrice) {
   parent.append(title, price);
 }
 
-// fetch("https://fakestoreapi.com/products") // <== importare la lista prodotti in modo remoto
-  //.then((response) => response.json())
-  // .then((data) => {
-    //products = data;
-    //renderProducts();
-  //}); 
-
-
-
-
 function renderProducts(listItems) {
   listItems.map((product) => {
-    createProduct(wrapperProducts, product.image, product.title, product.price, product.id);
+    createProduct(
+      wrapperProducts,
+      product.image,
+      product.title,
+      product.price,
+      product.id
+    );
   });
 }
 
+
+
+// Async await
 const getProductsList = async () => {
   const res = await fetch("https://fakestoreapi.com/products");
   const data = await res.json();
-  productList = data;
-  
-  return renderProducts(data);
+  productsList = data;
 
+  // Nella eventualità di aggiungere una quantità per prodotto
+  // productsList = data.map((product) => {
+  //   product.quantity = 0;
+  //   return product;
+  // });
+
+  return renderProducts(data);
 };
-let productList = [];
+
+let productsList = [];
 const wrapperProducts = document.querySelector(".wrapper__products");
-const cartList = [];
+
+// Parte inerente alla logica del carrello
+let cartList = [];
 
 const localStorageTot = localStorage.getItem("totCartitems");
 const cartBtn = document.querySelector(".cartBtn");
 const cartProductsNum = document.querySelector(".cartProductsNum");
 const clearCartBtn = document.querySelector(".clearCart");
 
-cartProductsNum.textContent = `Numero prodotti : ${localStorageTot}`
-
+// Flusso generale
+cartProductsNum.textContent = `Numero prodotti: ${localStorageTot}`;
 getProductsList();
 
 clearCartBtn.addEventListener("click", () => {
   cartList.length = 0;
-  setCartProductSum(); 
+  setCartProductsNum();
 });
 
 const images = [
