@@ -61,7 +61,7 @@ function renderProducts(listItems) {
 const getProductsList = async () => {
   const res = await fetch("https://fakestoreapi.com/products");
   const data = await res.json();
-  getProductsList = data;
+  productList = data;
   
   return renderProducts(data);
 
