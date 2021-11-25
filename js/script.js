@@ -156,5 +156,3 @@ function renderRecensioni(listRecensioni) {
 
 renderRecensioni(recensioni);
 
-
-
