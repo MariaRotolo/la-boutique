@@ -126,3 +126,55 @@ let changeImages = setInterval(() => {
     imagesIndex = 0;
   }
 }, 2000);
+
+
+///////////////// recensioni
+
+function createRecensione(parent, photoUrl, nameRecensione, rateRecensione, descriptionRecensione,) {
+  const recensione = document.createElement("div");
+  recensione.className = "recensione";
+
+  createPhoto(recensione, photoUrl);
+  createName(recensione, nameRecensione);
+  createRating(recensione, rateRecensione);
+  createDescription(recensione, descriptionRecensione);
+  parent.appendChild(recensione);
+  
+}
+function createPhoto(parent, photoUrl){
+  const photo = document.createElement("img");
+  photo.src = photoUrl;
+  parent.appendChild(photo);
+}
+function createName(parent, nameRecensione) {
+  const name =document.createElement("h4");
+  name.textContent = nameRecensione;
+  parent.appendChild(name);
+}
+
+function createRating(parent, rateRecensione) {
+  const rate = document.createElement("strong");
+  rate.textContent = rateRecensione;
+  parent.append(rate);
+}
+
+function createDescription(parent, descriptionRecensione) {
+  const description = document.createElement("p");
+  description.textContent = descriptionRecensione;
+  parent.append(description);
+}
+const wrapperRecensioni = document.querySelector(".recensioni")
+function renderRecensioni(listRecensioni) {
+ listRecensioni.map((recensione) => {
+  createRecensione(
+  wrapperRecensioni,
+  recensione.photo,
+  recensione.name,
+  recensione.rate,
+  recensione.description
+  );
+  });
+  
+}
+
+renderRecensioni(recensioni);
