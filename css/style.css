@@ -177,3 +177,38 @@ strong {
 .product p {
   align-self: flex-end;
 }
+
+.recensioni {
+  margin: 20px 40px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.p_recensioni {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 7.5px;
+  padding: 10px;
+  font-size: 20px;
+}
+
+.recensione {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin: 7.5px;
+  padding: 10px;
+
+  width: 150px;
+
+  border: 2px solid rgb(50, 50, 50);
+
+  opacity: 0.78;
+  cursor: pointer;
+  transition: all 0.35s;
+}
