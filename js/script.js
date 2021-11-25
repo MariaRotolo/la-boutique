@@ -1,12 +1,8 @@
- // import { products } from "./products.js";  // <== importare la lista prodotti in modo locale
- function setCartProductsNum() {
+import { recensioni } from "./recensioni.js";
+
+function setCartProductsNum() {
   cartProductsNum.textContent = `Numero prodotti: ${cartList.length}`;
 }
-
-const modal = document.querySelector("#my_modal");
-const closeBtn = document.querySelector(".close_modal");
-
-
 
 function createProduct(parent, imgUrl, productTitle, textPrice, idProduct) {
   const product = document.createElement("div");
@@ -18,27 +14,26 @@ function createProduct(parent, imgUrl, productTitle, textPrice, idProduct) {
   parent.appendChild(product);
 
   product.addEventListener("click", (e) => {
+    console.log("cartList");
+    const localStorageValue = localStorage.getItem("totCartitems");
+    if (localStorageValue) {
+      cartList = JSON.parse(localStorageValue);
+    }
+
     cartList.push(
       productsList.find(
         (product) => parseInt(e.currentTarget.id) === product.id
       )
     );
-  
-    setCartProductsNum(); 
-    modal.style.display = "block";
-   /* alert(`Prodotto aggiunto al carrello, numero prodotti: ${cartList.length}`); */
+    setCartProductsNum();
+    alert(`Prodotto aggiunto al carrello, numero prodotti: ${cartList.length}`);
     // Nel caso in cui volessimo aggiungere una interazione col LocalStorage
-    closeBtn.onclick = function() {modal.style.display= "none"};
-    //window.onclick = function(event) {
-     // if (modal.style.display = "block") {
-      //  modal.style.display = "none";
-      //}
-   // }
-    localStorage.setItem("totCartitems", cartList.length);
+      //console.log(cartList);
+    localStorage.setItem("totCartitems", JSON.stringify(cartList));
+
+    // console.log("LOCAL STORAGE ==>", localStorageValue);
   });
 }
-
-
 
 function createImg(parent, imgUrl, productTitle) {
   const image = document.createElement("img");
@@ -70,8 +65,6 @@ function renderProducts(listItems) {
   });
 }
 
-
-
 // Async await
 const getProductsList = async () => {
   const res = await fetch("https://fakestoreapi.com/products");
@@ -99,7 +92,10 @@ const cartProductsNum = document.querySelector(".cartProductsNum");
 const clearCartBtn = document.querySelector(".clearCart");
 
 // Flusso generale
-cartProductsNum.textContent = `Numero prodotti: ${localStorageTot}`;
+const parsedTotCardItemsLen = 0;
+ // JSON.parse(localStorage.getItem("totCartitems"))?.length || 0;
+
+cartProductsNum.textContent = `Numero prodotti: ${parsedTotCardItemsLen || 0}`;
 getProductsList();
 
 clearCartBtn.addEventListener("click", () => {
@@ -107,22 +103,58 @@ clearCartBtn.addEventListener("click", () => {
   setCartProductsNum();
 });
 
-const images = [
-  "https://images.unsplash.com/photo-1493655161922-ef98929de9d8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80",
-  "https://images.unsplash.com/photo-1505022610485-0249ba5b3675?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80",
-  "https://images.unsplash.com/photo-1490481651871-ab68de25d43d?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2340&q=80"
 
-];
+///////// recensioni
 
-const slider = document.querySelector(".overlay");
 
-let imagesIndex = 0;
-let changeImages = setInterval(() => {
-  slider.style.backgroundImage = `url(${images[imagesIndex]})`;
+function createRecensione(parent, photoUrl, nameRecensione, rateRecensione, descriptionRecensione,) {
+  const recensione = document.createElement("div");
+  recensione.className = "recensione";
 
-  if( imagesIndex < images.length -1  ) {
-    imagesIndex++;
-  } else {
-    imagesIndex = 0;
-  }
-}, 2000);
+  createPhoto(recensione, photoUrl);
+  createName(recensione, nameRecensione);
+  createRating(recensione, rateRecensione);
+  createDescription(recensione, descriptionRecensione);
+  parent.appendChild(recensione);
+  
+}
+function createPhoto(parent, photoUrl){
+  const photo = document.createElement("img");
+  photo.src = photoUrl;
+  parent.appendChild(photo);
+}
+function createName(parent, nameRecensione) {
+  const name =document.createElement("h4");
+  name.textContent = nameRecensione;
+  parent.appendChild(name);
+}
+
+function createRating(parent, rateRecensione) {
+  const rate = document.createElement("strong");
+  rate.textContent = rateRecensione;
+  parent.append(rate);
+}
+
+function createDescription(parent, descriptionRecensione) {
+  const description = document.createElement("p");
+  description.textContent = descriptionRecensione;
+  parent.append(description);
+}
+const wrapperRecensioni = document.querySelector(".recensioni")
+function renderRecensioni(listRecensioni) {
+ listRecensioni.map((recensione) => {
+  createRecensione(
+  wrapperRecensioni,
+  recensione.photo,
+  recensione.name,
+  recensione.rate,
+  recensione.description
+  );
+  });
+  
+}
+
+renderRecensioni(recensioni);
+
+
+
